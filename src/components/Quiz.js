@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Questions from './Questions'
-
+import { MoveNextQuestion,MovePrevQuestion } from '../hooks/FetchQuestions';
+import {useSelector, useDispatch } from 'react-redux'
 function Quiz() {
-    const onPrev =()=>{ console.log('previuse')};
-    const onNext=()=>{console.log('next')};
+  const state=useSelector(state=>state);
+  const { queue, trace } = useSelector(state => state.question);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    console.log(state)
+  
+  })
+    const onPrev =()=>{ 
+      
+      console.log('previuse');
+      if(trace > 0){
+        /** decrease the trace value by one using MovePrevQuestion */
+        dispatch(MovePrevQuestion());
+    }
+    
+    };
+    const onNext=()=>{
+      console.log('next');
+
+      if(trace < queue.length){
+          /** increase the trace value by one using MoveNextAction */
+          dispatch(MoveNextQuestion());
+      }
+    
+    };
   return (
     <div className='container'>
         <h1 className='title text-light'>Quiz Application</h1>
