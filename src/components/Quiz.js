@@ -1,48 +1,65 @@
-import React, { useEffect } from 'react'
-import Questions from './Questions'
-import { MoveNextQuestion,MovePrevQuestion } from '../hooks/FetchQuestions';
-import {useSelector, useDispatch } from 'react-redux'
-function Quiz() {
-  const state=useSelector(state=>state);
-  const { queue, trace } = useSelector(state => state.question);
+import React, { useState } from 'react';
+import Questions from './Questions';
+import { MoveNextQuestion, MovePrevQuestion } from '../hooks/FetchQuestions';
+import { PushAnswer } from '../hooks/setResult';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+export default function Quiz() {
+  const [check, setChecked] = useState(undefined);
+
+  const result = useSelector(state => state.result.result);
+  const { queue, trace } = useSelector(state => state.questions);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    console.log(state)
-  
-  })
-    const onPrev =()=>{ 
-      
-      console.log('previuse');
-      if(trace > 0){
-        /** decrease the trace value by one using MovePrevQuestion */
-        dispatch(MovePrevQuestion());
+  function onNext() {
+    if (check === undefined) {
+      toast.warning('Please select an option before moving to the next question.', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return; // Stop execution if no option is selected
     }
-    
-    };
-    const onNext=()=>{
-      console.log('next');
 
-      if(trace < queue.length){
-          /** increase the trace value by one using MoveNextAction */
-          dispatch(MoveNextQuestion());
+    if (trace < queue.length) {
+      dispatch(MoveNextQuestion());
+      if (result.length <= trace) {
+        dispatch(PushAnswer(check));
       }
-    
-    };
+    }
+    setChecked(undefined);
+  }
+
+  function onPrev() {
+    if (trace > 0) {
+      dispatch(MovePrevQuestion());
+    }
+  }
+
+  function onChecked(check) {
+    console.log(check);
+    setChecked(check);
+  }
+
+  if (result.length && result.length >= queue.length) {
+    return <Navigate to={'/result'} replace={true}></Navigate>;
+  }
+
   return (
     <div className='container'>
-        <h1 className='title text-light'>Quiz Application</h1>
-
-        {/* display questions */}
-        <Questions />
-
-        <div className='grid'>
-            <button className='btn prev' onClick={onPrev}>Prev</button>
-            <button className='btn next' onClick={onNext}>Next</button>
-        </div>
+      <Questions onChecked={onChecked} />
+      <div className='grid'>
+        {trace > 0 ? <button className='btn prev' onClick={onPrev}>Prev</button> : <div></div>}
+        <button className='btn next' onClick={onNext}>
+          Next
+        </button>
+      </div>
     </div>
-
-  )
+  );
 }
-
-export default Quiz

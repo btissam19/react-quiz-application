@@ -1,10 +1,15 @@
-
+:root{
+    --primary-color: #038C93;
+    --dark-color :black;
+    --light-color: #f0f0f0;
+  }
+  
 
 .flex-center{
     display: flex;
     justify-content: center;    
     flex-direction: column;
-    border: 1px solid #cecece;
+    border: 1px solid var(--primary-color);
     padding: 3em 4em;
     gap: 1em;
 }
@@ -17,7 +22,7 @@
 
 .container .flex span {
     font-size: 1.4em;
-    color: #cecece;
+    color: var(--dark-color);
 }
 
 .container .flex span.achive {

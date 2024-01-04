@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-// createSlice :its redux function we use it for create redux witaction and state
-
-export const questionReducer =createSlice({
-    name:'question',// we must declare name 
-    initialState:{// must
+export const questionReducer = createSlice({
+    name: 'questions',
+    initialState : {
         queue: [],
         answers : [],
         trace : 0
     },
-    reducers:{// must
-        startExamAction:(state ,action)=>{ 
+    reducers : {
+        startExamAction : (state, action) => {
+            let { question, answers} = action.payload
             return {
-            ...state,
-            queue : action.payload// must payload
-        }},
+                ...state,
+                queue : question,
+                answers
+            }
+        },
         moveNextAction : (state) => {
             return {
                 ...state,
@@ -25,11 +26,17 @@ export const questionReducer =createSlice({
                 ...state,
                 trace : state.trace - 1
             }
+        },
+        resetAllAction : () => {
+            return {
+                queue: [],
+                answers : [],
+                trace : 0
+            }
         }
-    
     }
 })
 
-export const { startExamAction , moveNextAction,movePrevAction} = questionReducer.actions;// we ve actions proprties
+export const { startExamAction, moveNextAction, movePrevAction, resetAllAction } = questionReducer.actions;
 
-export default questionReducer.reducer;// we ve reducer proprty
+export default questionReducer.reducer;

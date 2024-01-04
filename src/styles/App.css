@@ -2,13 +2,13 @@
 
 :root{
   --primary-color: #038C93;
-  --dark-color:#222222;
+  --dark-color :black;
   --light-color: #f0f0f0;
 }
 
 body, html{
   height: 100%;
-  background: var(--dark-color)
+  background: var(--light-color)
 }
 
 * > *{
@@ -18,22 +18,21 @@ body, html{
 .container{
   display: block;
   position: relative;
-  margin: 40px auto;
+  margin: 10px auto;
   height: auto;
   width: 800px;
-  padding: 20px;
+  padding: 5px;
 }
-
 .container .title{
     font-size: 3em;
     text-align: center;
-    border: 5px solid var(--primary-color);
-    padding: .3em .2em;
-    border-radius: 4px;
+    border: 1px solid var(--primary-color);
+    padding: .2em .2em;
+    border-radius: 2px;
 }
 
 .text-light {
-	color: var(--light-color)
+	color: var(--dark-color)
 }
 
 .container ul{
@@ -56,7 +55,7 @@ body, html{
 } */
 
 .container .grid{
-    margin-top: 3em;
+    margin-top: 2em;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -71,8 +70,8 @@ body, html{
 
 .container .btn:hover{
     cursor: pointer;
-    background-color: #f0f0f0;
-    color: #202020;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 .next{
@@ -81,12 +80,12 @@ body, html{
 }
 
 .prev{
-    background-color:#7BD34E;
+    background-color:var(--primary-color);
     justify-self: flex-start;
 }
 
 ul li{
-  color: #AAAAAA;
+  color:black;
   display: block;
   position: relative;
   float: left;
@@ -114,7 +113,7 @@ ul li label{
 }
 
 ul li:hover label{
-	color: #FFFFFF;
+	color: var(--dark-color);
 }
 
 ul li .check{
